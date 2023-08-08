@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html :: headerfiles"/>
+<body>
+	<header th:insert="fragments/general.html :: header"> </header>
+	<div th:replace="fragments/general.html :: menu"></div>
+
+	<h2>Bookings List</h2>
+	<!-- Add Hyperlink -->
+	<a href="AddBooking.html" th:href="@{/booking/add}">New Booking</a>
+
+	<table th:if="${not #lists.isEmpty(bookings)}" >
+		<tr >
+			<th>Booking Id</th>
+			<th>Member Name</th>
+			<th>User Name</th>
+			<th>Facility Name</th>
+			<th>From Date</th>
+			<th>End Date</th>
+			<th>Status</th>
+			<th>Cancel</th>
+		</tr>
+		<tr th:each="booking:${bookings}" >
+			<td th:text=${booking.id}>Id</td>
+			<td th:text="${booking.member.fullName}">Name</td>
+			<td th:text=${booking.member.username}>User Name</td>
+			<td th:text=${booking.facility.name}>Last Name</td>
+			<td th:text="${#temporals.format(booking.startDate, 'dd/MM/yyyy')}">From Date</td>
+			<td th:text="${#temporals.format(booking.endDate, 'dd/MM/yyyy')}">End Date</td>
+			<td th:text=${booking.status}>Status</td>
+			<td ><a href="CancelBooking.html"
+        th:href="@{/booking/cancel/}+${booking.id}" 
+        th:if="${booking.status.name() == 'BOOKED'}">Cancel</a></td>
+		</tr>
+	</table>
+    <br/>
+	<div th:replace="fragments/general.html :: footer"></div>
+	
+</body>
+</html>

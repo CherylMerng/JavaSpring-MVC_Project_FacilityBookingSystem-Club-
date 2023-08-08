@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html :: headerfiles"/>
+<body>
+	<header th:insert="fragments/general.html :: header"> </header>
+	<div th:replace="fragments/general.html :: menu"></div>
+
+	<h2>Facility Booking Form</h2>
+	<form action="#" th:object="${booking}" th:action="@{/booking/save}"
+		method="post">
+		<fieldset>
+			<input type="hidden" th:field="*{id}">
+		</fieldset>
+		<fieldset>
+			Member <select th:field="*{member.id}">
+				<option th:each="memberObj:${memberList}" th:value="${memberObj.id}"
+					th:text="${memberObj.fullName}"></option>
+			</select>
+		</fieldset>
+		<fieldset>
+			Facility <select th:field="*{facility.id}">
+				<option th:each="facilityObj:${facilityList}" th:value="${facilityObj.id}"
+					th:text="${facilityObj.name}"></option>
+			</select>
+		</fieldset>
+		<fieldset>
+			Start Date: <input type="date" th:field="*{startDate}" />
+			<p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>
+		</fieldset>
+		<fieldset>
+			End Date: <input type="date" th:field="*{endDate}" />
+			<p th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></p>
+		</fieldset>
+		<fieldset>
+			Comments:
+			<textarea name="comments" th:text="*{comments}"></textarea>
+		</fieldset>
+		<fieldset>
+			<input type="submit" value="Save"/>
+			&nbsp; &nbsp; 	
+			<input type="reset" value="Reset"/>
+		</fieldset>
+    <p th:if="${errorMessage != null}" th:text="${errorMessage}"></p>
+	</form>
+	<br />
+	<div th:replace="fragments/general.html :: footer"></div>
+</body>
+</html>
